@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCP CG SLS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            background-color: #4abeb5;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            width: 100%;
+            position: relative;
+        }
+
+        .header .title {
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header img {
+            width: 95px;
+            height: auto;
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+        }
+
+        /* botões CCP*/
+        .ccp-container {
+            background-color: #4abeb5;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        .ccp-container a {
+            display: inline-block;
+            background-color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .ccp-container a:hover {
+            background-color: #e0f2f1;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 50px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+            cursor: grab;
+        }
+        .centered img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .recent-images {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .recent-images .image-container {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .recent-images .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .caption {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .updates-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 90px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .zoom-message {
+            position: absolute;
+            top: 58%;
+            left: 4.5%;
+            transform: translateY(-100%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 5;
+            margin-top: 10px;
+        }
+
+        .titleCCP {
+            text-align: center;
+            font-size: 24px;
+            color: #2e7d32;
+            margin: 20px 0;
+        }
+    </style>
+    <script src="Contents/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/wheelzoom.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <img src="vale-logo-1.svg" alt="Ícone">
+        <span class="title">Painel CCP CG SLS</span>
+    </div>
+
+    <div class="ccp-container">
+        <a href="indexPainelCCPTFPM.html" class="button" target="_blank">CCP-TFPM</a>
+        <a href="PrintsCCP-ACD.html" class="button" target="_blank">CCP-ACD</a>
+        <a href="PrintsCCP-TFCJ.html" class="button" target="_blank">CCP-TFCJ</a>
+        <a href="PrintsCCP-TFSP.html" class="button" target="_blank">CCP-TFSP</a>
+        <a href="PrintsCCP-CG-SLS.html" class="button" target="_blank">CCP-CG-SLS</a>
+        <a href="PrintsCCP-CMPN-EFC.html" class="button" target="_blank">CMPN-EFC</a>
+        <a href="PrintsCCP-TERMINAIS.html" class="button" target="_blank">CCP-TERMINAIS</a>
+        <a href="PrintsCCP-OEM.html" class="button" target="_blank">CCP-OEM</a>
+        <a href="PrintsCCP-MBA.html" class="button" target="_blank">CCP-MBA</a>
+        <a href="PrintsCCP-PBA.html" class="button" target="_blank">CCP-PBA</a>
+    </div>
+
+    <div class="container">
+        <div id="gallery"></div>
+        <div class="recent-images" id="recent-images"></div>
+        <p id="zoom-instruction">Movimente o scroll do mouse sob a imagem para manipular o zoom</p>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const directory = './pasta';
+
+            const galleryElement = document.getElementById('gallery');
+            const recentImagesElement = document.getElementById('recent-images');
+            const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            const titleCCP = document.querySelector('title').textContent.trim();
+
+            const imageMap = {
+                'CCP TFPM': 'PainelCCPTFPM.png',
+                'CCP ACD': 'PainelCCPACD.png',
+                'CCP TFCJ': 'PainelCCPTFCJ.png',
+                'CCP TFSP': 'PainelCPPTFSP.png',
+                'CCP CG SLS': 'ccptfpmcgr.png',
+                'CCP TERMINAIS': 'terminais.png',
+                'CCP OEM': 'PainelCCPOEM.png',
+                'CCP MBA': 'Painelccpmba.png',
+                'CCP PBA': 'PainelCCPPBA.png',
+                'CCP CMPN-EFC': 'ccppn.png'
+            };
+
+            function displayImage(imageName) {
+                const imgElement = document.createElement('img');
+                imgElement.src = `${directory}/${imageName}`;
+                galleryElement.appendChild(imgElement);
+                wheelzoom(imgElement); // Adiciona o zoom à imagem
+            }
+
+            function getImages() {
+                const imageName = imageMap[titleCCP];
+                if (imageName) {
+                    displayImage(imageName);
+                } else {
+                    console.error('Image not found:', titleCCP);
+                }
+            }
+
+            document.querySelectorAll('.ccp-container a').forEach(link => {
+                link.addEventListener('click', function () {
+                    titleCCP.textContent = this.textContent;
+                    window.location.href = this.href;
+                });
+            });
+
+            getImages();
+        }
+    </script>
+</body>
+
+
+
+</html>
